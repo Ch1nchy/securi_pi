@@ -26,7 +26,7 @@ public class Securi_pi {
         tpThread.start();      
         
         
-        ServerThread serverThread = new ServerThread();
+        AndroidServer serverThread = new AndroidServer(20101);
         Thread serThread = new Thread(serverThread);
         serThread.start();
         
