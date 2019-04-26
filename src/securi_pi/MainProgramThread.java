@@ -22,7 +22,14 @@ public class MainProgramThread implements Runnable{
     
     public void run() {
         
-        System.out.print("You are in the main program thread");
+        
+        while(true){
+            if ("Armed".equals(Securi_pi.status)){
+                System.out.println("You are in the main program thread, status is " + Securi_pi.status);
+                Securi_pi.status = "Disarmed";
+            }   
+        }
+      
         
         // Attempt to create an instance of RPiCamera, will fail if raspistill is not properly installed
         /*RPiCamera piCamera = null;
