@@ -14,6 +14,8 @@ public class ServerThread implements Runnable {
     public void run () {
         
         System.out.println("You are in the server thread");
+        Securi_pi.status = "disarmed";
         
+        System.out.println(Securi_pi.status);
     }
 }

@@ -37,7 +37,7 @@ public class SendAttachmentInEmail {
         Password: T3amprojectinitial
         */
         String[] array = new String[1];
-        String[] returned;
+        //String[] returned;
         array[0] = "gmail.com";
         
         //MXRecords mxrecords;

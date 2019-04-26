@@ -15,6 +15,8 @@ import javax.naming.NamingException;
  */
 public class Securi_pi {
     
+    static String status = "Armed";
+    
     public static void main(String[] args) throws FailedToRunRaspistillException, IOException, NamingException {
     
         //This thread starts the main program that listens for the usb serial and
