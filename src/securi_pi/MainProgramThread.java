@@ -61,6 +61,7 @@ public class MainProgramThread implements Runnable{
      
             if (Securi_pi.status == true){
             
+                //Check if USB serial port is opened, and if not, open it
                 if(serialPort.isOpened() == false) {
                     try {
                         serialPort.openPort();
@@ -69,6 +70,7 @@ public class MainProgramThread implements Runnable{
                     }
                 }
                 
+                //Intentional delay to allow users to leave premesis before activation
                 try {
                     Thread.sleep(10000);
                     serialPort.writeString("P");
@@ -135,8 +137,6 @@ public class MainProgramThread implements Runnable{
                         }
                     }
                     serialPort.writeString("R");
-                    //System.out.println("reset sent");
-                    //serialPort.closePort();
                 } catch (SerialPortException ex) {
                     Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                 }

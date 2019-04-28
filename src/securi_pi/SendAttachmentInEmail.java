@@ -40,7 +40,7 @@ public class SendAttachmentInEmail {
         Properties props = new java.util.Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");  //"smtp.gmail.com"
+        props.put("mail.smtp.host", "smtp.gmail.com");  
         props.put("mail.smtp.port", "587");
         
         // Get the Session object.
