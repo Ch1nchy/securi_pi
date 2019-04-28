@@ -23,7 +23,7 @@ public class MessageBuilder {
                 ";resp:" + resp + ">";
     }
 
-    private static HashMap<String, String> separateElements(String r) {
+    public static HashMap<String, String> separateElements(String r) {
         HashMap<String, String> details = new HashMap<>();
 
         String s = r.substring(1, r.length() - 1);

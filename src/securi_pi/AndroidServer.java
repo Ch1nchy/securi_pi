@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class AndroidServer implements Runnable {
@@ -75,6 +76,16 @@ class ServerConnectionHandler implements Runnable {
             System.out.println("Waiting for input...");
             String message = reader.readLine();
             System.out.println("Received: " + message);
+            
+            //Parse out status from message
+            HashMap<String, String> map = MessageBuilder.separateElements(message);
+            boolean temp = Boolean.parseBoolean(map.get("meta"));
+            System.out.println("The retrieved boolean is " + temp);
+            
+            if (map.get("req") == "setStatus"){
+                Securi_pi.status = Boolean.parseBoolean(map.get("meta"));
+                System.out.println("The system status is " + Securi_pi.status);
+            }
 
             // Handle message
             String resp = MessageBuilder.handleResponse(message, serverName,true); // SERVERRUNNING NEEDS TO BE CHANGED HERE...
