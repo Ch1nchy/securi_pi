@@ -29,15 +29,47 @@ public class MainProgramThread implements Runnable{
     
     public void run() {
        
-        while(true){
-            
-            if (Securi_pi.status != temp){
-                System.out.println("Status has changed");
-                temp = Securi_pi.status;              
+        //Encapsulate this in a loop to test whether the Arduino is connected via ACM0 or ACM1
+        SerialPort serialPort = null;
+        String serialPortPath = "/dev/ttyACM0";
+        Boolean activeSerial = false;
+
+        while (activeSerial == false) {
+            try {
+
+                serialPort = new SerialPort(serialPortPath);
+                System.out.println("Port opened: " + serialPort.openPort());
+                System.out.println("Params setted: " + serialPort.setParams(9600, 8, 1, 0));
+                activeSerial = true;
+
+            } catch (SerialPortException ex) {
+                try {
+                    serialPortPath = "/dev/ttyACM1";
+                    serialPort = new SerialPort(serialPortPath);
+                    System.out.println("Port opened: " + serialPort.openPort());
+                    System.out.println("Params setted: " + serialPort.setParams(9600, 8, 1, 0));
+                    activeSerial = true;
+                    //Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SerialPortException ex1) {
+                    Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex1);
+                }
             }
+        }
+       
+        
+
+        
+        while(true){
+     
+            if (Securi_pi.status == true){
             
-            if (temp == true){
-            
+                try {
+                    serialPort.writeString("P");
+                } catch (SerialPortException ex) {
+                    Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
                 System.out.println("System has triggered");
 
                 // Attempt to create an instance of RPiCamera, will fail if raspistill is not properly installed
@@ -48,62 +80,51 @@ public class MainProgramThread implements Runnable{
                 } catch (FailedToRunRaspistillException ex) {
                     Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-
-                //Encapsulate this in a loop to test whether the Arduino is connected via ACM0 or ACM1
-                SerialPort serialPort = null;
-                String serialPortPath = "/dev/ttyACM0";
-                Boolean activeSerial = false;
-
-                while (activeSerial == false) {
-                    try {
-
-                        serialPort = new SerialPort(serialPortPath);
-                        System.out.println("Port opened: " + serialPort.openPort());
-                        System.out.println("Params setted: " + serialPort.setParams(9600, 8, 1, 0));
-                        activeSerial = true;
-
-                    } catch (SerialPortException ex) {
-                        serialPortPath = "/dev/ttyACM1";
-                        Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
+                
+                
                 try{
-
-                    while(true)
-                    {           
+               
+                    while(Securi_pi.status == true)
+                    {     
+                        
                         byte[] readSerial = serialPort.readBytes();
+                        //System.out.println("Here");
                         if (readSerial != null)
                         {
 
                             if (piCamera != null){
-                            shootStill(piCamera);
-
-                                try {
-                                    SendAttachmentInEmail sendEmail = new SendAttachmentInEmail();
-                                } catch (IOException | NamingException ex) {
-                                    Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-
-
-                            serialPort.writeString("L");
+                                
+                                shootStill(piCamera);
+                                Thread sendEmailThread = new Thread() {
+                                    public void run() {
+                                        try {
+                                            SendAttachmentInEmail sendEmail = new SendAttachmentInEmail();
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
+                                        } catch (NamingException ex) {
+                                            Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                };
+                                sendEmailThread.start();
+                                readSerial = null;
                             }
                         }
                     }
                 } catch (SerialPortException ex) {
                     System.out.println(ex);
                 }
-
-                //The arduino needs the code below to activate Light/sound
-                try
-                {
-                    serialPort.closePort();
-
-                } catch(SerialPortException ex){
-
-                    System.out.println(ex);
+            } 
+            
+            if (Securi_pi.status == false) {
+                try {
+                    serialPort.writeString("R");
+                    System.out.println("reset sent");
+                    //serialPort.closePort();
+                } catch (SerialPortException ex) {
+                    Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
             }
         } 
     }
