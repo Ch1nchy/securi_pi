@@ -82,8 +82,7 @@ public class SendAttachmentInEmail {
         for (String address : addresses)
         {
             if (address != null) {
-                try {
-                    System.out.println("You are here");
+                try {                  
                     msg.setFrom(new InternetAddress("teamproject5cc518@gmail.com"));
                     
                     //The email address in the 'Recipients' can be replaced by the variable
@@ -99,7 +98,7 @@ public class SendAttachmentInEmail {
                     
                     DataSource source = new FileDataSource("/home/pi/Pictures/motionalert.jpg");
                     attachmentBodyPart.setDataHandler(new DataHandler(source));
-                    attachmentBodyPart.setFileName("A Cool Picture.jpg"); // ex : "test.pdf"
+                    attachmentBodyPart.setFileName("motionalert.jpg"); // ex : "test.pdf"
                     
                     multipart.addBodyPart(textBodyPart);  // add the text part
                     multipart.addBodyPart(attachmentBodyPart); // add the attachement part
