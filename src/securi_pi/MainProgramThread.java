@@ -57,19 +57,22 @@ public class MainProgramThread implements Runnable{
                 }
             }
         }
-       
-        
-        try {
-            serialPort.openPort();
-        } catch (SerialPortException ex) {
-            Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
         while(true){
      
             if (Securi_pi.status == true){
             
-
+                try {
+                    if(serialPort.openPort() == false) {
+                        try {
+                            serialPort.openPort();
+                        } catch (SerialPortException ex) {
+                            Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                } catch (SerialPortException ex) {
+                    Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
                 try {
                     Thread.sleep(10000);
@@ -116,6 +119,7 @@ public class MainProgramThread implements Runnable{
                                     }
                                 };
                                 sendEmailThread.start();
+                                serialPort.writeString("R");
                                 serialPort.closePort();
                                 break;
                             }
