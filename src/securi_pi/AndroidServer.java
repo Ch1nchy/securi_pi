@@ -15,7 +15,6 @@ import java.util.Scanner;
 
 public class AndroidServer implements Runnable {
 
-    private boolean serverRunning = false;
     private String serverName = "SecuriPi Demo Server";
 
     int portNum = 20101;
@@ -67,6 +66,7 @@ class ServerConnectionHandler implements Runnable {
 
     public void run() {
         try {
+            
             System.out.println("Client connected");
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(soc.getInputStream()));
@@ -79,16 +79,14 @@ class ServerConnectionHandler implements Runnable {
             
             //Parse out status from message
             HashMap<String, String> map = MessageBuilder.separateElements(message);
-            boolean temp = Boolean.parseBoolean(map.get("meta"));
-            System.out.println("The retrieved boolean is " + temp);
             
-            if (map.get("req") == "setStatus"){
+            if ("setStatus".equals(map.get("req"))){
                 Securi_pi.status = Boolean.parseBoolean(map.get("meta"));
                 System.out.println("The system status is " + Securi_pi.status);
             }
 
             // Handle message
-            String resp = MessageBuilder.handleResponse(message, serverName,true); // SERVERRUNNING NEEDS TO BE CHANGED HERE...
+            String resp = MessageBuilder.handleResponse(message, serverName,Securi_pi.status); // SERVERRUNNING NEEDS TO BE CHANGED HERE...
             writer.write(resp + "\n");
             writer.flush();
             System.out.println("Responded with: " + resp);
