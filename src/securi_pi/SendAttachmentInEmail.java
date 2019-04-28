@@ -36,16 +36,6 @@ public class SendAttachmentInEmail {
         Address: teamproject5cc518@outlook.com
         Password: T3amprojectinitial
         */
-        String[] array = new String[1];
-        //String[] returned;
-        array[0] = "gmail.com";
-        
-        //MXRecords mxrecords;
-        //mxrecords = new MXRecords(array);
-     
-        //returned = mxrecords.lookupMailHosts("gmail.com");      
-        //String mxRecord = returned[0];
-        //System.out.println(mxRecord);
         
         Properties props = new java.util.Properties();
         props.put("mail.smtp.auth", "true");

@@ -51,7 +51,6 @@ public class MainProgramThread implements Runnable{
                     System.out.println("Params setted: " + serialPort.setParams(9600, 8, 1, 0));
                     serialPort.closePort();
                     activeSerial = true;
-                    //Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SerialPortException ex1) {
                     Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex1);
                 }
