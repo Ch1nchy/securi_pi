@@ -98,8 +98,7 @@ public class MainProgramThread implements Runnable{
                     {     
                         
                         String readSerial = serialPort.readString();
-                        
-                        
+                       
                         if (readSerial != null)
                         {
                             if (piCamera != null){
