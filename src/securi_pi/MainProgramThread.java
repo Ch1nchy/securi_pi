@@ -132,6 +132,20 @@ public class MainProgramThread implements Runnable{
             
             if (Securi_pi.status == false) {
                 try {
+                    
+                    try {
+                        if(serialPort.openPort() == false) {
+                            try {
+                                serialPort.openPort();
+                            } catch (SerialPortException ex) {
+                                Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
+                            }       
+                        }
+                    } catch (SerialPortException ex) {
+                        Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    
                     serialPort.writeString("R");
                     //System.out.println("reset sent");
                     //serialPort.closePort();
