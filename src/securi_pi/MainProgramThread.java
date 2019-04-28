@@ -64,8 +64,11 @@ public class MainProgramThread implements Runnable{
             if (Securi_pi.status == true){
             
                 try {
+                    Thread.sleep(10000);
                     serialPort.writeString("P");
                 } catch (SerialPortException ex) {
+                    Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
                     Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
@@ -87,11 +90,11 @@ public class MainProgramThread implements Runnable{
                     while(Securi_pi.status == true)
                     {     
                         
-                        byte[] readSerial = serialPort.readBytes();
-                        //System.out.println("Here");
+                        String readSerial = serialPort.readString();
+                        System.out.println(String.valueOf(readSerial));
+                        
                         if (readSerial != null)
                         {
-
                             if (piCamera != null){
                                 
                                 shootStill(piCamera);
@@ -107,13 +110,14 @@ public class MainProgramThread implements Runnable{
                                     }
                                 };
                                 sendEmailThread.start();
-                                readSerial = null;
+                                
+                                break;
                             }
                         }
                     }
                 } catch (SerialPortException ex) {
                     System.out.println(ex);
-                }
+                } 
             } 
             
             if (Securi_pi.status == false) {
