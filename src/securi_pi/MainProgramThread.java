@@ -62,16 +62,12 @@ public class MainProgramThread implements Runnable{
      
             if (Securi_pi.status == true){
             
-                try {
-                    if(serialPort.openPort() == false) {
-                        try {
-                            serialPort.openPort();
-                        } catch (SerialPortException ex) {
-                            Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                if(serialPort.isOpened() == false) {
+                    try {
+                        serialPort.openPort();
+                    } catch (SerialPortException ex) {
+                        Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SerialPortException ex) {
-                    Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
                 try {
@@ -84,7 +80,7 @@ public class MainProgramThread implements Runnable{
                 }
                 
                 
-                System.out.println("System has triggered");
+                System.out.println("System has armed");
 
                 // Attempt to create an instance of RPiCamera, will fail if raspistill is not properly installed
                 RPiCamera piCamera = null;
@@ -133,19 +129,13 @@ public class MainProgramThread implements Runnable{
             if (Securi_pi.status == false) {
                 try {
                     
-                    try {
-                        if(serialPort.openPort() == false) {
-                            try {
-                                serialPort.openPort();
-                            } catch (SerialPortException ex) {
-                                Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
-                            }       
+                    if(serialPort.isOpened() == false) {
+                        try {
+                            serialPort.openPort();
+                        } catch (SerialPortException ex) {
+                            Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);       
                         }
-                    } catch (SerialPortException ex) {
-                        Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-                    
                     serialPort.writeString("R");
                     //System.out.println("reset sent");
                     //serialPort.closePort();

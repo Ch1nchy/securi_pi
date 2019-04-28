@@ -30,7 +30,7 @@ public class ShootStill {
                 .setEncoding(Encoding.JPG); // Change encoding of images to PNG
         // Take a 650x650 still image and save it as "/home/pi/Pictures/A Cool Picture.jpg"
         try {
-                File image = piCamera.takeStill("A Cool Picture.jpg",1920, 1080);
+                File image = piCamera.takeStill("motionalert",1920, 1080);
                 System.out.println("New JPG image saved to:\n\t" + image.getAbsolutePath());
         } catch (IOException | InterruptedException e) {
         }
