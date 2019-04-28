@@ -40,6 +40,7 @@ public class MainProgramThread implements Runnable{
                 serialPort = new SerialPort(serialPortPath);
                 System.out.println("Port opened: " + serialPort.openPort());
                 System.out.println("Params setted: " + serialPort.setParams(9600, 8, 1, 0));
+                serialPort.closePort();
                 activeSerial = true;
 
             } catch (SerialPortException ex) {
@@ -48,6 +49,7 @@ public class MainProgramThread implements Runnable{
                     serialPort = new SerialPort(serialPortPath);
                     System.out.println("Port opened: " + serialPort.openPort());
                     System.out.println("Params setted: " + serialPort.setParams(9600, 8, 1, 0));
+                    serialPort.closePort();
                     activeSerial = true;
                     //Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SerialPortException ex1) {
@@ -57,12 +59,18 @@ public class MainProgramThread implements Runnable{
         }
        
         
-
+        try {
+            serialPort.openPort();
+        } catch (SerialPortException ex) {
+            Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         while(true){
      
             if (Securi_pi.status == true){
             
+
+                
                 try {
                     Thread.sleep(10000);
                     serialPort.writeString("P");
@@ -91,7 +99,7 @@ public class MainProgramThread implements Runnable{
                     {     
                         
                         String readSerial = serialPort.readString();
-                        System.out.println(String.valueOf(readSerial));
+                        
                         
                         if (readSerial != null)
                         {
@@ -102,15 +110,13 @@ public class MainProgramThread implements Runnable{
                                     public void run() {
                                         try {
                                             SendAttachmentInEmail sendEmail = new SendAttachmentInEmail();
-                                        } catch (IOException ex) {
-                                            Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
-                                        } catch (NamingException ex) {
+                                        } catch (IOException | NamingException ex) {
                                             Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                                         }
                                     }
                                 };
                                 sendEmailThread.start();
-                                
+                                serialPort.closePort();
                                 break;
                             }
                         }
@@ -123,7 +129,7 @@ public class MainProgramThread implements Runnable{
             if (Securi_pi.status == false) {
                 try {
                     serialPort.writeString("R");
-                    System.out.println("reset sent");
+                    //System.out.println("reset sent");
                     //serialPort.closePort();
                 } catch (SerialPortException ex) {
                     Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
