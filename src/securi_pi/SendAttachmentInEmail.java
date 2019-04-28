@@ -97,7 +97,7 @@ public class SendAttachmentInEmail {
                     textBodyPart.setText("Motion has taken place");
                     MimeBodyPart attachmentBodyPart= new MimeBodyPart();
                     
-                    DataSource source = new FileDataSource("/home/pi/Pictures/A Cool Picture.jpg");
+                    DataSource source = new FileDataSource("/home/pi/Pictures/motionalert.jpg");
                     attachmentBodyPart.setDataHandler(new DataHandler(source));
                     attachmentBodyPart.setFileName("A Cool Picture.jpg"); // ex : "test.pdf"
                     
