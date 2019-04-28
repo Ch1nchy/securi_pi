@@ -15,7 +15,7 @@ import javax.naming.NamingException;
  */
 public class Securi_pi {
     
-    static boolean status = true;
+    static boolean status = false;
     
     public static void main(String[] args) throws FailedToRunRaspistillException, IOException, NamingException {
     

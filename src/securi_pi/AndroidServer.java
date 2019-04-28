@@ -9,9 +9,7 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class AndroidServer implements Runnable {
 
