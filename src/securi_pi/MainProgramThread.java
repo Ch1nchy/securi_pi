@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
 import jssc.SerialPort;
+import static jssc.SerialPort.PURGE_RXCLEAR;
+import static jssc.SerialPort.PURGE_TXCLEAR;
 import jssc.SerialPortException;
 import static securi_pi.ShootStill.shootStill;
 
@@ -99,7 +101,8 @@ public class MainProgramThread implements Runnable{
                     {     
                         
                         String readSerial = serialPort.readString();
-                       
+                        serialPort.purgePort(PURGE_RXCLEAR);
+                        serialPort.purgePort(PURGE_TXCLEAR);
                         if (readSerial != null)
                         {
                             
@@ -124,6 +127,7 @@ public class MainProgramThread implements Runnable{
                                     }
                                 };
                                 sendEmailThread.start();
+                                
                                 //serialPort.writeString("R");
                                 //serialPort.closePort();
                                 break;
