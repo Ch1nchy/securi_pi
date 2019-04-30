@@ -116,7 +116,7 @@ public class MainProgramThread implements Runnable{
                                 };
                                 sendEmailThread.start();
                                 //serialPort.writeString("R");
-                                serialPort.closePort();
+                                //serialPort.closePort();
                                 break;
                             }
                         }
