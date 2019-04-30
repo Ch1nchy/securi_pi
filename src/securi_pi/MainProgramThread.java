@@ -98,25 +98,25 @@ public class MainProgramThread implements Runnable{
                 try{
                
                     while(Securi_pi.status == true)
-                    {     
-                        
+                    {
                         String readSerial = serialPort.readString();
-                        serialPort.purgePort(PURGE_RXCLEAR);
-                        serialPort.purgePort(PURGE_TXCLEAR);
+                        
                         if (readSerial != null)
                         {
                             
                             RPiCamera piCamera = null;
                             String saveDir = "/home/pi/Pictures";
                             try {
+                                System.out.println("Init PiCamera");
                                 piCamera = new RPiCamera(saveDir);
                             } catch (FailedToRunRaspistillException ex) {
                                 Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             
                             if (piCamera != null){
-                                
+                                System.out.println("Shoot Still");
                                 shootStill(piCamera);
+                                
                                 Thread sendEmailThread = new Thread() {
                                     public void run() {
                                         try {
@@ -126,16 +126,22 @@ public class MainProgramThread implements Runnable{
                                         }
                                     }
                                 };
+                                System.out.println("Starting SendEmail Thread");
                                 sendEmailThread.start();
                                 
                                 //serialPort.writeString("R");
                                 //serialPort.closePort();
-                                break;
+                                Thread.sleep(5000);
+                                readSerial = null;
+                                serialPort.purgePort(PURGE_RXCLEAR);
+                                serialPort.purgePort(PURGE_TXCLEAR);
                             }
                         }
                     }
                 } catch (SerialPortException ex) {
                     System.out.println(ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
                 } 
             } 
             

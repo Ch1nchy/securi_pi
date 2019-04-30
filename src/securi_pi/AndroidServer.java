@@ -33,7 +33,6 @@ public class AndroidServer implements Runnable {
 
         while (true) {
             // Accept incoming connections
-            System.out.println("Waiting for connection...");
             Socket soc = serverSoc.accept();
 
             // Create a new thread for the connection to start
@@ -71,9 +70,7 @@ class ServerConnectionHandler implements Runnable {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(soc.getOutputStream()));
 
             // Receive message
-            System.out.println("Waiting for input...");
             String message = reader.readLine();
-            System.out.println("Received: " + message);
             
             //Parse out status from message
             HashMap<String, String> map = MessageBuilder.separateElements(message);
@@ -87,14 +84,12 @@ class ServerConnectionHandler implements Runnable {
             String resp = MessageBuilder.handleResponse(message, serverName,Securi_pi.status); // SERVERRUNNING NEEDS TO BE CHANGED HERE...
             writer.write(resp + "\n");
             writer.flush();
-            System.out.println("Responded with: " + resp);
 
             reader.close();
             writer.close();
 
             // Close socket
             close();
-            System.out.println("Socket closed.");
 
         } catch (Exception e) {
             close();
