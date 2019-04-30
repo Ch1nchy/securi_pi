@@ -84,13 +84,13 @@ public class MainProgramThread implements Runnable{
                 System.out.println("System has armed");
 
                 // Attempt to create an instance of RPiCamera, will fail if raspistill is not properly installed
-                RPiCamera piCamera = null;
+                /*RPiCamera piCamera = null;
                 String saveDir = "/home/pi/Pictures";
                 try {
                     piCamera = new RPiCamera(saveDir);
                 } catch (FailedToRunRaspistillException ex) {
                     Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }*/
                 
                 
                 try{
@@ -102,6 +102,15 @@ public class MainProgramThread implements Runnable{
                        
                         if (readSerial != null)
                         {
+                            
+                            RPiCamera piCamera = null;
+                            String saveDir = "/home/pi/Pictures";
+                            try {
+                                piCamera = new RPiCamera(saveDir);
+                            } catch (FailedToRunRaspistillException ex) {
+                                Logger.getLogger(MainProgramThread.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            
                             if (piCamera != null){
                                 
                                 shootStill(piCamera);
