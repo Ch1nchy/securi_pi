@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class AndroidServer implements Runnable {
 
-    private String serverName = "SecuriPi Demo Server";
+    private String serverName = "SecuriPi v1.0";
 
     int portNum = 20101;
     ServerSocket serverSoc = null;
