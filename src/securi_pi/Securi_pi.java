@@ -12,6 +12,12 @@ import javax.naming.NamingException;
 /**
  *
  * @author pi
+ *
+ * The below libraries need to be downloaded and added to the project build
+ * Pi Camera Library:       https://github.com/Hopding/JRPiCam
+ * Java Serial Connector:   https://code.google.com/archive/p/java-simple-serial-connector/downloads
+ * JavaX Mail:              https://jar-download.com/artifacts/com.sun.mail/javax.mail/1.6.2 
+ *
  */
 public class Securi_pi {
     
