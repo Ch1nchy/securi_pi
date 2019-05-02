@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#The 'pi' needs to be changed to whatever the local user account name is
+#And the 'Documents' needs to be changed to whatever the local of the .jar file is
+java -jar /home/pi/Documents/securi_pi.jar 
