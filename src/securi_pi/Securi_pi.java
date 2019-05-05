@@ -31,7 +31,8 @@ public class Securi_pi {
         Thread tpThread = new Thread(teamProjects);      
         tpThread.start();      
         
-        
+        //This thread starts the android server that will listen for new
+        //connections over the wifi network
         AndroidServer serverThread = new AndroidServer(20101);
         Thread serThread = new Thread(serverThread);
         serThread.start();
